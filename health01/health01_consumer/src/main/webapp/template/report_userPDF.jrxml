@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="user_all" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="34bb76d0-9f0e-4b85-a87f-56e2a1fcc6a9">
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="userName" class="java.lang.String"/>
+	<field name="sex" class="java.lang.String"/>
+	<field name="telephone" class="java.lang.String"/>
+	<field name="birthday" class="java.lang.String"/>
+	<field name="station" class="java.lang.String"/>
+	<field name="remark" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="-10" y="0" width="100" height="30" uuid="02b46781-4114-423f-b816-5d8e016177d1">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8186ffb6-595f-4f70-9ac6-d0f09626cdd5"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="华文宋体" size="14"/>
+				</textElement>
+				<text><![CDATA[用户名]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="90" y="0" width="60" height="30" uuid="5f8dd25f-89cd-4de4-9724-8b0a997653c0">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a13f0700-ddc0-4312-96b4-2a18278a0749"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="华文宋体" size="14"/>
+				</textElement>
+				<text><![CDATA[性别]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="150" y="0" width="100" height="30" uuid="431058cf-cbd0-4e9a-97fd-0911cf821676">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9b5c7b5d-7722-4de6-8206-7ccbe95d0497"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="华文宋体" size="14"/>
+				</textElement>
+				<text><![CDATA[联系电话]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="250" y="0" width="100" height="30" uuid="8e5cc90c-f911-4f77-8b90-0b4214a87b92">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="10b60c24-3386-4ce6-aa96-c236d1ff6473"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="华文宋体" size="14"/>
+				</textElement>
+				<text><![CDATA[出生日期]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="350" y="0" width="100" height="30" uuid="4b3502e2-5d80-4c02-88f8-c23fa7a19d18">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3ccc433d-a4cf-4830-84a1-ef6d394a494e"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="华文宋体" size="14"/>
+				</textElement>
+				<text><![CDATA[工作站]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="450" y="0" width="100" height="30" uuid="ead0f633-3e71-4ce4-84d4-e2682e30b060">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5f5bd5ec-d905-40b5-bade-a493216f46ce"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="华文宋体" size="14"/>
+				</textElement>
+				<text><![CDATA[备注]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField>
+				<reportElement x="-10" y="0" width="100" height="30" uuid="96a949d4-d022-4138-8197-f2d852914e34">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8186ffb6-595f-4f70-9ac6-d0f09626cdd5"/>
+				</reportElement>
+				<box>
+					<pen lineColor="#262208"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="华文宋体" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{userName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="90" y="0" width="60" height="30" uuid="f2cdf00a-7c81-46a2-959b-9872150bc25b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a13f0700-ddc0-4312-96b4-2a18278a0749"/>
+				</reportElement>
+				<box>
+					<pen lineColor="#262208"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="华文宋体" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sex}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="0" width="100" height="30" uuid="ab56a953-9ca9-4a52-bf2a-a982ac40a686">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9b5c7b5d-7722-4de6-8206-7ccbe95d0497"/>
+				</reportElement>
+				<box>
+					<pen lineColor="#262208"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="华文宋体" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telephone}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="250" y="0" width="100" height="30" uuid="c11f1fc5-a60e-499c-ba52-e276dcb30e3a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="10b60c24-3386-4ce6-aa96-c236d1ff6473"/>
+				</reportElement>
+				<box>
+					<pen lineColor="#262208"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="华文宋体" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{birthday}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="350" y="0" width="100" height="30" uuid="a163947d-b900-4626-a08d-ff83c14acb11">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3ccc433d-a4cf-4830-84a1-ef6d394a494e"/>
+				</reportElement>
+				<box>
+					<pen lineColor="#262208"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="华文宋体" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{station}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="450" y="0" width="100" height="30" uuid="78efafbc-9b39-4ec0-b15e-8593dc0f90fd">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5f5bd5ec-d905-40b5-bade-a493216f46ce"/>
+				</reportElement>
+				<box>
+					<pen lineColor="#262208"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="华文宋体" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{remark}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="60" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="70" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="120" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/context
+          https://www.springframework.org/schema/context/spring-context.xsd">
+
+   <context:annotation-config></context:annotation-config><!--spring的注解使用需要使用此标签开启-->
+   <!--注册自定义类-->
+   <bean class="com.health.jobs.ClearImgJobs" id="imgJobs"></bean>
+   <!--注册jobDetail，作用：负责通过反射调用指定的job-->
+   <bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean" id="jobDetail">
+      <property name="targetObject" ref="imgJobs"/><!--注入目标对象-->
+      <property name="targetMethod" value="clearImg"/><!--注入目标方法-->
+   </bean>
+   <!--注册触发器-->
+   <bean class="org.springframework.scheduling.quartz.CronTriggerFactoryBean" id="cronTrigger">
+      <!--注入jobDetail-->
+      <property name="jobDetail" ref="jobDetail"/>
+      <property name="cronExpression">
+         <value>0/10 * * * * ?</value><!--触发时间-->
+      </property>
+   </bean>
+   <!--注册一个统一的调度工程，通过这个调度工厂调度任务-->
+   <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean" id="scheduler">
+      <property name="triggers">
+         <list>
+            <ref bean="cronTrigger"></ref>
+         </list>
+      </property>
+   </bean>
+</beans>

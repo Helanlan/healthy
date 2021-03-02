@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>传智健康</title>
+    <meta name="description" content="传智健康">
+    <meta name="keywords" content="传智健康">
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="../plugins/elementui/index.css">
+    <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <style type="text/css">
+        .el-main {
+            position: absolute;
+            top: 70px;
+            bottom: 0px;
+            left: 200px;
+            right: 10px;
+            padding: 0;
+        }
+    </style>
+</head>
+<body class="hold-transition skin-purple sidebar-mini">
+<div id="app">
+    <el-container>
+        <el-header class="main-header" style="height:70px;">
+            <nav class="navbar navbar-static-top" :class=''>
+                <!-- Logo -->
+                <a href="#" class="logo" style="text-align:center">
+                    <span class="logo-lg"><img src="../img/logo.png"></span>
+                </a>
+                <div class="right-menu">
+                    <span class="help"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>帮助</span>
+                    <el-dropdown class="avatar-container right-menu-item" trigger="click">
+                        <div class="avatar-wrapper">
+                            <img src="../img/user2-160x160.jpg" class="user-avatar">
+                            {{username}}
+                        </div>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item divided>
+                                <span style="display:block;">修改密码</span>
+                            </el-dropdown-item>
+                            <el-dropdown-item divided>
+                                <a style="display:block;" href="/logout.do">退出</a>
+                            </el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
+                </div>
+            </nav>
+        </el-header>
+        <el-container>
+            <el-tree
+                    :data="treeData"
+                    node-key="id"
+                    ref="tree"
+                    :load="loadNode"
+                    lazy
+                    :default-checked-keys="elTree"
+                    highlight-current
+                    :props="props"
+                    @node-click="handleNodeClick"
+                    class="el_tree">
+            </el-tree>
+            <el-container>
+                <iframe name="right" class="el-main" src="ordersetting.html" width="100%" height="580px"
+                        frameborder="0"></iframe>
+            </el-container>
+        </el-container>
+    </el-container>
+</div>
+</body>
+<!-- 引入组件库 -->
+<script src="../js/vue.js"></script>
+<script src="../plugins/elementui/index.js"></script>
+<script src="/js/axios-0.18.0.js"></script>
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<script>
+
+    let vue = new Vue({
+        el: '#app',
+        data() {
+            return {
+                props: {
+                    id: "id",
+                    children: 'children',
+                    label: 'name'
+                },
+                username: ''
+            }
+        },
+        methods: {
+            loadNode(node, resolve) {
+                // console.log(node)
+                if (node.level === 0) {          //初始第一层节点，初始化数据，根节点配置
+                    axios.get('/menu/showParentMenu.do').then((response) => {
+                        for (let i = 0; i < response.data.data.length; i++) {
+                            resolve([{'name': response.data.data[i].name}])
+                        }
+                    });
+                } else if (node.level===1){
+                    axios.get('/menu/showMenuByName.do', node.id).then((response) => {
+                        // console.log(response.data)
+                        let data = [];
+                        for (let l = 0; l < response.data.data.length; l++) {
+                            // console.log(response.data)
+                            for (let j = 1; j < response.data.data[l].length; j++) {
+                                let data1 = {};
+                                console.log(l + "===" + j)
+                                data1.name = response.data.data[l][j].name;
+                                data.push(data1)
+                                resolve(data)
+                            }
+                            console.log(data)
+                            data = [];
+                        }
+                    })
+                }else if (node.level===2){
+
+                }
+                    // return resolve([{label: "预约管理"}, {label: '2'}, {label: '3'},]);
+                    //["{label:会员管理}", "{label:预约管理}", "{label:健康评估}", "{label:统计分析}", "{label:系统设置}", "{label:工作台}"]
+                    //["会员管理", "预约管理", "健康评估", "统计分析", "系统设置", "工作台"]
+
+
+                    /* loadNode(node, resolve) {
+                         console.log(node);
+                         if (node.level === 0) {          //初始第一层节点，初始化数据，根节点配置
+                             return resolve([{label: '1'}, {label: '2'}, {label: '3'},]);
+                         }
+                         var data = [];
+                         if (node.data.label == 1) {//点击树节点1的处理
+                             data = [{label: '1-1'}, {label: '1-2'}, {label: '1-3'}];
+                         }
+                         if (node.data.label == 2) {//点击树节点2的处理
+                             data = [{label: '2-1'}, {label: '2-2'}, {label: '2-3'}];
+                         }
+                         resolve(data)//加载下级数据!
+                     }*/
+
+
+            },
+           /* handleNodeClick(data) {
+                console.log("点击树节点");
+                console.log(data);
+                this.clickTree = data;
+            }*/
+        }
+    });
+</script>
+</html>

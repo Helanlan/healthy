@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/health01_provider/src/main/resources/com/health/mapper/CheckGroupMapper.xml" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/health01_provider/src/main/resources/com/health/mapper/CheckItemMapper.xml" dialect="MySQL" />
+  </component>
+</project>

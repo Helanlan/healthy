@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!--发布服务相关的-->
+
+    <dubbo:application name="health01_provider"/><!--指定应用名称-->
+    <dubbo:registry address="zookeeper://127.0.0.1:2181"/><!--指定服务注册中心地址-->
+    <dubbo:protocol name="dubbo" port="20882"></dubbo:protocol><!--指定暴露服务的端口，如果不指定默认是20880-->
+    <dubbo:annotation package="com.health.service"/><!--批量扫描，发布服务-->
+
+
+    <!--freemarker配置-->
+    <bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer" id="freeMarkerConfigurer">
+        <property name="templateLoaderPath" value="/WEB-INF/ftl/"/>
+        <property name="defaultEncoding" value="utf-8"/>
+    </bean>
+
+</beans>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.health.mapper.UserMapper">
+    <resultMap id="map" type="com.health.pojo.User">
+        <id property="id" column="id"/>
+        <result property="birthday" column="birthday"/>
+        <result property="sex" column="sex"/>
+        <result property="userName" column="userName"/>
+        <result property="password" column="password"/>
+        <result property="remark" column="remark"/>
+        <result property="station" column="station"/>
+        <result property="telephone" column="telephone"/>
+        <collection property="roles"
+                    ofType="com.health.pojo.Role"
+                    column="id"
+                    select="com.health.mapper.RoleMapper.findByUserId">
+        </collection>
+    </resultMap>
+    <!--查询用户名==》通过用户id查角色==》通过角色id查权限,用户授予权限SpringSecurityUserService.java-->
+   <select id="findByUsername" resultMap="map" parameterType="string">
+       select * from t_user where userName=#{userName};
+   </select>
+
+
+    <!--分页查询-->
+    <select id="findByPage" parameterType="string" resultType="com.health.pojo.User">
+        select * from t_user
+        <if test="value!=null and value.length>0">
+            where userName like concat('%',#{value},'%') or telephone like concat('%',#{value},'%') or station like concat('%',#{value},'%')
+        </if>
+    </select>
+
+    <!--添加-->
+    <insert id="userAdd" parameterType="com.health.pojo.User">
+        insert into t_user(userName,password,sex,telephone,birthday,station,remark) values
+        (#{userName},#{password},#{sex},#{telephone},#{birthday},#{station},#{remark})
+        <selectKey resultType="int" order="AFTER" keyProperty="id">
+            select last_insert_id();
+        </selectKey>
+    </insert>
+    <insert id="addRoleListToUserRole" parameterType="map">
+        insert into t_user_role(user_id,role_id)values (#{userId},#{roleId})
+    </insert>
+
+
+    <!--编辑时用于数据回显-->
+    <select id="findUserById" parameterType="int" resultType="com.health.pojo.User">
+        select * from t_user where id=#{id};
+    </select>
+    <!--通过用户id获得用户包含的角色列表，用于复选框回显-->
+    <select id="findRoleCheckList" resultType="int" parameterType="int">
+        select role_id from t_user_role where user_id=#{id};
+    </select>
+    <delete id="deleteUserRoleByUserId" parameterType="int">
+        delete from t_user_role where user_id=#{userid}
+    </delete>
+    <!--编辑-->
+    <update id="userEdit" parameterType="com.health.pojo.User">
+        update t_user set userName=#{userName},password=#{password},sex=#{sex},
+        birthday=#{birthday},remark=#{remark},telephone=#{telephone},station=#{station}
+        where id=#{id}
+    </update>
+
+    <!--删除-->
+    <delete id="userDelete" parameterType="int">
+        delete from t_user where id=#{id}
+    </delete>
+
+
+    <!--暂时导出用户数据的时候使用-->
+    <select id="userShowAll" resultType="com.health.pojo.User">
+        select userName,sex,birthday,remark,station,telephone from t_user;
+    </select>
+    <select id="selByIds" resultType="com.health.pojo.User">
+        select * from t_user where id in (
+        <foreach collection="array" item="id" index="index" separator=",">
+            #{id}
+        </foreach>
+        )
+    </select>
+
+</mapper>

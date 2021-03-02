@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/security
+        https://www.springframework.org/schema/security/spring-security.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+       http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd">
+
+
+    <!--==============================================================================================================-->
+    <!--auto-config自动配置，如自动有一个登录页面-->
+    <!--
+        pattern:拦截规则,=/**表示拦截所有的请求，保护所有资源
+        access:指定所需的访问角色或者访问权限
+    -->
+    <!--<security:http auto-config="true" use-expressions="true">
+        <security:intercept-url pattern="/**" access="hasRole('ROLE_ADMIN')"></security:intercept-url>
+    </security:http>-->
+    <!--==============================================================================================================-->
+    <!--配置部分不拦截的,-->
+    <security:http security="none" pattern="/css/**"/>
+    <security:http security="none" pattern="/img/**"/>
+    <security:http security="none" pattern="/js/**"/>
+    <security:http security="none" pattern="/plugins/**"/>
+    <security:http security="none" pattern="/login.html"/>
+    <!--    <security:http security="none" pattern="/pages/**"/>  pages下的全部放行-->
+
+    <!--pattern:拦截规则,=/**表示拦截所有的请求，保护所有资源.access:指定所需的访问角色或者访问权限 -->
+    <security:http auto-config="true" use-expressions="true">
+        <security:headers>
+            <!--设置在页面可以通过iframe访问受保护的页面，默认不允许-->
+            <security:frame-options policy="SAMEORIGIN"/>
+        </security:headers>
+        <security:intercept-url pattern="/pages/**" access="isAuthenticated()"></security:intercept-url><!--登录成功就可以访问-->
+
+
+
+
+        <!--指定自己的登录页面,default-target-url="/main.html"是登录成功后的跳转页面，authentication-failure-url="/login.html"认证失败要跳转的页面-->
+        <security:form-login
+                login-page="/login.html"
+                username-parameter="username"
+                password-parameter="password"
+                login-processing-url="/login.do"
+                default-target-url="/pages/main.html"
+                authentication-failure-url="/login.html?error"></security:form-login>
+        <!--csrf是CsrfFilter过滤器，系统认为你自己的登录页面不安全，做了拦截不能访问，要想访问自己的登录页面必须关掉这个拦截-->
+        <security:csrf disabled="true"></security:csrf>
+
+
+
+        <!--退出登录. logout-url退出登录操作对应的请求路劲，基于logoutFilter过滤器-->
+        <security:logout logout-url="/logout.do" logout-success-url="/login.html" invalidate-session="true"/>
+    </security:http>
+
+
+
+
+    <!--配置认证管理器-->
+    <security:authentication-manager>
+        <security:authentication-provider user-service-ref="springSecurityUserService"><!--配置认证提供者-->
+            <!--  <security:user-service>
+                具体用户
+                <security:user name="admin" password="{noop}1234" authorities="ROLE_ADMIN"></security:user>
+            </security:user-service> -->
+            <security:password-encoder ref="bCryptPasswordEncoder"/> <!--配置密码加密-->
+        </security:authentication-provider>
+    </security:authentication-manager>
+    <bean class="com.health.service.SpringSecurityUserService" id="springSecurityUserService"/>  <!--在这个类上加了@Component就不需要配置bean了-->
+    <!--配置密码加密-->
+    <bean class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" id="bCryptPasswordEncoder"/>
+
+    <security:global-method-security pre-post-annotations="enabled"/><!--开启security注解方式权限控制-->
+
+
+
+</beans>

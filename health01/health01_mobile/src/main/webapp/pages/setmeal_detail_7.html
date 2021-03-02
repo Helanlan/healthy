@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0,user-scalable=no,minimal-ui">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../img/asset-favico.ico">
+    <title>预约详情</title>
+    <link rel="stylesheet" href="../css/page-health-orderDetail.css"/>
+    <script src="../plugins/vue/vue.js"></script>
+    <script src="../plugins/vue/axios-0.18.0.js"></script>
+    <script src="../plugins/healthmobile.js"></script>
+</head>
+<body data-spy="scroll" data-target="#myNavbar" data-offset="150">
+<div id="app" class="app">
+    <!-- 页面头部 -->
+    <div class="top-header">
+        <span class="f-left"><i class="icon-back" onclick="history.go(-1)"></i></span>
+        <span class="center">传智健康</span>
+        <span class="f-right"><i class="icon-more"></i></span>
+    </div>
+    <!-- 页面内容 -->
+    <div class="contentBox">
+        <div class="card">
+            <div class="project-img">
+                <img src="http://qkpbqwub4.hd-bkt.clouddn.com/3eac036b-cc6e-4a62-8282-16be0c6e459e.jpg" width="100%" height="100%"/>
+            </div>
+            <div class="project-text">
+                <h4 class="tit">公司体检C套餐</h4>
+                <p class="subtit">核心项目：肿瘤筛查7项 动脉硬化指数(AI) 心肌酶谱二项 幽门螺杆菌抗体 重要器官彩色超声检查</p>
+                <p class="keywords">
+                    <span>
+                           性别不限
+                    </span>
+                    <span>18-76</span>
+                </p>
+            </div>
+        </div>
+        <div class="table-listbox">
+            <div class="box-title">
+                <i class="icon-zhen"><span class="path1"></span><span class="path2"></span></i>
+                <span>套餐详情</span>
+            </div>
+            <div class="box-table">
+                <div class="table-title">
+                    <div class="tit-item flex2">项目名称</div>
+                    <div class="tit-item  flex3">项目内容</div>
+                    <div class="tit-item  flex3">项目解读</div>
+                </div>
+                <div class="table-content">
+                    <ul class="table-list">
+                            <li class="table-item">
+                                <div class="item flex2">一般检查</div>
+                                <div class="item flex3">
+                                        <label>
+                                            尿检
+                                        </label>
+                                        <label>
+                                            皮肤
+                                        </label>
+                                        <label>
+                                            口腔
+                                        </label>
+                                </div>
+                                <div class="item flex3">通过仪器测量人体身高、体重、腰围及血压，科学判断体重是否标准、血压是否正常，并且为相关科室的诊断提供重要的依据。</div>
+                            </li>
+                            <li class="table-item">
+                                <div class="item flex2">内科检查</div>
+                                <div class="item flex3">
+                                        <label>
+                                            皮肤
+                                        </label>
+                                        <label>
+                                            腰围
+                                        </label>
+                                        <label>
+                                            胸围
+                                        </label>
+                                </div>
+                                <div class="item flex3">通过视、触、叩、听检查心、肺、肝、脾等重要脏器的基本状况,发现常见疾病的相关征兆，或初步排除常见疾病,外周血管搏动状况,下肢是否浮肿等。</div>
+                            </li>
+                            <li class="table-item">
+                                <div class="item flex2">血糖测定</div>
+                                <div class="item flex3">
+                                        <label>
+                                            尿检
+                                        </label>
+                                        <label>
+                                            皮肤
+                                        </label>
+                                </div>
+                                <div class="item flex3">评价人体空腹状态下糖代谢是否正常，评估糖尿病受检者空腹血糖控制是否达标。空腹血糖是评估糖代谢紊乱的常用和重要指标。</div>
+                            </li>
+                            <li class="table-item">
+                                <div class="item flex2">血脂检测</div>
+                                <div class="item flex3">
+                                        <label>
+                                            皮肤
+                                        </label>
+                                        <label>
+                                            口腔
+                                        </label>
+                                        <label>
+                                            腰围
+                                        </label>
+                                </div>
+                                <div class="item flex3">用于动脉粥样硬化、高血压、冠心病等疾病诊断和疗效观察</div>
+                            </li>
+                    </ul>
+                </div>
+                <div class="box-button">
+                    <a @click="toOrderInfo()" class="order-btn">立即预约</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var vue = new Vue({
+        el: '#app',
+        methods: {
+            toOrderInfo() {
+                window.location.href = "orderInfo.html?id=7";
+            }
+        }
+    });
+</script>

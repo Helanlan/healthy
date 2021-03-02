@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="true"><!--转换器-->
+            <!--FastJsonHttpMessageConverter不配置会使用默认的json，功能差不多-->
+            <!--往回写json数据的时候用转换器将java对象转换成json-->
+            <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+                <property name="supportedMediaTypes" value="application/json;charset=UTF-8"/>
+                <property name="features">
+                    <list>
+                        <value>WriteMapNullValue</value>
+                        <value>WriteDateUseDateFormat</value>
+                        <value>DisableCircularReferenceDetect</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+    <!--发布服务相关的-->
+    <dubbo:application name="health01_consumer"/><!--指定应用名称-->
+    <dubbo:registry address="zookeeper://127.0.0.1:2181"/><!--指定服务注册中心地址-->
+    <dubbo:annotation package="com.health"/><!--批量扫描，发布服务-->
+    <!--    <dubbo:annotation package="com.health.service"/>-->
+    <dubbo:consumer check="false"/>
+    <dubbo:reference id="checkItemService" interface="com.health.service.CheckItemService"/>
+    <dubbo:reference id="checkGroupService" interface="com.health.service.CheckGroupService"/>
+    <dubbo:reference id="setMealService" interface="com.health.service.SetMealService"/>
+    <dubbo:reference id="orderSettingService" interface="com.health.service.OrderSettingService"/>
+    <dubbo:reference id="userService" interface="com.health.service.UserService"/>
+    <dubbo:reference id="memberService" interface="com.health.service.MemberService"/>
+    <dubbo:reference id="reportService" interface="com.health.service.ReportService"/>
+    <dubbo:reference id="menuService" interface="com.health.service.MenuService"/>
+    <dubbo:reference id="permissionService" interface="com.health.service.PermissionService"/>
+    <dubbo:reference id="roleService" interface="com.health.service.RoleService"/>
+    <dubbo:reference id="orderService" interface="com.health.service.OrderService"/>
+    <bean id="orderController" class="com.health.controller.OrderController"/>
+    <bean id="rolesController" class="com.health.controller.RolesController"/>
+    <bean id="permissionController" class="com.health.controller.PermissionController"/>
+    <bean id="checkItemController" class="com.health.controller.CheckItemController"/>
+    <bean id="checkGroupController" class="com.health.controller.CheckGroupController"/>
+    <bean id="setMealController" class="com.health.controller.SetMealController"/>
+    <bean id="orderSettingController" class="com.health.controller.OrderSettingController"/>
+    <bean id="userController" class="com.health.controller.UserController"/>
+    <bean id="reportController" class="com.health.controller.ReportController"/>
+    <bean id="menuController" class="com.health.controller.MenuController"/>
+    <!--<bean id="springSecurityUserService" class="com.health.service.SpringSecurityUserService"/>-->
+
+    <!--上传文件-->
+    <bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
+        <property name="maxUploadSize" value="104857600"/>
+        <property name="maxInMemorySize" value="4096"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+    <import resource="spring-redis.xml"></import>
+    <import resource="spring-security.xml"></import>
+</beans>

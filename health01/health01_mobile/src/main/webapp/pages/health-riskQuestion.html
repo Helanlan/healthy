@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0,user-scalable=no,minimal-ui">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../img/asset-favico.ico">
+    <title>评估问卷</title>
+
+    <link rel="stylesheet" href="../css/page-health-riskQuestion.css"/>
+    <script src="../plugins/jquery/dist/jquery.min.js"></script>
+    <script src="../plugins/healthmobile.js"></script>
+    <script src="../plugins/vue/vue.js"></script>
+    <script src="../plugins/vue/axios-0.18.0.js"></script>
+    <script src="../plugins/elementui/index.js"></script>
+</head>
+
+<body data-spy="scroll" data-target="#myNavbar" data-offset="150">
+<div id="app">
+    <!-- 页面头部 -->
+    <div class="top-header">
+        <span class="f-left"><i class="icon-back"></i>返回</span>
+        <span class="center">传智健康</span>
+        <span class="f-right"><i class="icon-more"></i></span>
+    </div>
+    <!-- 页面内容 -->
+    <div class="contentBox">
+        <div class="question" >
+            <div class="q-tit">
+                <p class="type-num"><span><i class="cur-num">{{question.serialNum}}</i>[<i
+                        class="type">{{question.type}}</i>]</span></p>
+                <p class="tit">{{question.name}}</p>
+            </div>
+            <div class="q-choose">
+                <div class="choose-items">
+                    <div class="input-row radio left" v-if="question.op1!=''">
+                        <input id="item1" type="radio" name="item" :value="question.score1" v-model="onetotal" checked>
+                        <label for="item1"></label>
+                        <span>{{question.op1}}</span>
+                    </div>
+                    <div class="input-row radio left" v-if="question.op2!=''">
+                        <input id="item2" type="radio" name="item" :value="question.score2" v-model="onetotal" checked>
+                        <label for="item2"></label>
+                        <span>{{question.op2}}</span>
+                    </div>
+                    <div class="input-row radio left" v-if="question.op3!=''">
+                        <input id="item3" type="radio" name="item" :value="question.score3" v-model="onetotal" checked>
+                        <label for="item3"></label>
+                        <span>{{question.op3}}</span>
+                    </div>
+                    <div class="input-row radio left" v-if="question.op4!=''">
+                        <input id="item4" type="radio" name="item" :value="question.score4" v-model="onetotal" checked>
+                        <label for="item4"></label>
+                        <span>{{question.op4}}</span>
+                    </div>
+                    <div class="input-row radio left" v-if="question.op5!=''">
+                        <input id="item5" type="radio" name="item" :value="question.score5" v-model="onetotal" checked>
+                        <label for="item5"></label>
+                        <span>{{question.op5}}</span>
+                    </div>
+
+                </div>
+                <div class="tool-btn">
+                    <a class="btn next-btn" @click="toNext()">下一题</a>
+                    <a class="btn cancle-btn">取消</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- 页面 css js -->
+<!-- <script src="health-index.js"></script> -->
+
+
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            question:{},
+            onetotal:0
+        },
+        methods: {
+            findAllQuestion() {
+                axios.get("/question/findAll?onetotal="+this.onetotal).then((res) =>{
+                    // if (res.data.flag==false){
+                    //     alert("您的分数为"+res.data.data);
+                    // }
+                    if (res.data.flag){
+                        this.question = res.data.data;
+                    }
+                })
+            },
+            toNext(){
+                this.findAllQuestion();
+            },
+            // total(obj){
+            //    this.onetotal=obj.value;
+            //    this.findAllQuestion();
+            // },
+        },
+        created() {
+            this.findAllQuestion();
+        }
+    })
+</script>
+
+</body>

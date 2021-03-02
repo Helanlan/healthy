@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.health.mapper.OrderSettingMapper">
+    <select id="findByOrderDate" parameterType="string" resultType="int">
+    select count(id) from t_ordersetting where orderDate=#{orderDate};
+    </select>
+    <update id="updateNumberByOrderDate" parameterType="com.health.pojo.OrderSetting">
+        update t_ordersetting set number =#{number} where orderDate=#{orderDate};
+    </update>
+    <insert id="add" parameterType="com.health.pojo.OrderSetting">
+        insert into t_ordersetting (orderDate,number,reservations) values (#{orderDate},#{number},#{reservations});
+    </insert>
+
+
+    <!--根据日期范围查询-->
+    <select id="getOrderSettingByMonth" parameterType="map" resultType="com.health.pojo.OrderSetting">
+        select * from t_ordersetting where orderDate between #{startDate} and #{endDate};
+    </select>
+
+    <!--预约人数单个设置-->
+    <update id="update" parameterType="map">
+        update t_ordersetting set number =#{value} where orderDate=#{orderDate};
+    </update>
+    <insert id="add1" parameterType="map">
+        insert into t_ordersetting (orderDate,number) values (#{orderDate},#{value});
+    </insert>
+
+
+    <!--预约成功后更新已预约人数-->
+    <update id="editReservations" parameterType="com.health.pojo.OrderSetting">
+        update t_ordersetting set reservations=#{reservations} where orderDate=#{orderDate};
+    </update>
+
+    <select id="findOrderSettingByDate" resultType="com.health.pojo.OrderSetting" parameterType="string">
+        select * from t_ordersetting where orderDate=#{orderDate};
+    </select>
+</mapper>

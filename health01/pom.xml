@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.health</groupId>
+    <artifactId>health01</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>health01_provider</module>
+        <module>health01_consumer</module>
+        <module>health01_interface</module>
+        <module>health01_commen</module>
+        <module>health01_jobs</module>
+        <module>health01_mobile</module>
+    </modules>
+
+
+</project>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.health.mapper.CheckItemMapper">
+
+    <insert id="add" parameterType="com.health.pojo.CheckItem">
+        insert into t_checkitem(code,name,sex,age,price,type,remark,attention)
+        values (#{code},#{name},#{sex},#{age},#{price},#{type},#{remark},#{attention});
+    </insert>
+
+    <select id="selAll" resultType="com.health.pojo.CheckItem" parameterType="String">
+        select id,code,name,sex,age,price,type,attention,remark from t_checkitem
+        <if test="value!=null and value.length>0">
+            where code like CONCAT('%',#{value},'%') or name like CONCAT('%',#{value},'%')
+        </if>
+    </select>
+    <select id="findCountByCheckItemId" parameterType="int" resultType="long">
+        /*查询检查项是否在检查组里面(数量大于1就说明在检查组里面)，要是再的话就不能做删除操作*/
+        select count(*) from t_checkgroup_checkitem where checkitem_id =#{checkitem_id};
+    </select>
+    <delete id="deleteCheckItem" parameterType="int">
+        delete from t_checkitem where id=#{id};
+    </delete>
+    
+    <select id="findById" parameterType="int" resultType="com.health.pojo.CheckItem">/*编辑的时候的数据回显*/
+        select * from t_checkitem where id=#{id};
+    </select>
+    <update id="updateCheckItem" parameterType="CheckItem">
+        update t_checkitem
+            <set>
+                <if test="code!=null">
+                    code=#{code},
+                </if>
+                <if test="name!=null">
+                    name=#{name},
+                </if>
+                <if test="sex!=null">
+                    sex=#{sex},
+                </if>
+                <if test="age!=null">
+                    age=#{age},
+                </if>
+                <if test="price!=null">
+                    price=#{price},
+                </if>
+                <if test="type!=null">
+                    type=#{type},
+                </if>
+                <if test="attention!=null">
+                    attention=#{attention},
+                </if>
+                <if test="remark!=null">
+                    remark=#{remark},
+                </if>
+            </set>
+        where id=#{id}
+    </update>
+
+
+    <select id="findAll" resultType="com.health.pojo.CheckItem">
+        select id,code,name,remark from t_checkitem;
+    </select>
+
+
+    <!--查询套餐详情时要显示检查组信息，和检查项信息-->
+    <select id="findCheckitemByCheckgroupId" resultType="com.health.pojo.CheckItem" parameterType="int">
+        select * from t_checkitem  where id in(select checkitem_id from t_checkgroup_checkitem where checkgroup_id=#{id});
+    </select>
+</mapper>

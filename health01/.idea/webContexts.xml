@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebContextManager">
+    <option name="state">
+      <map>
+        <entry key="file://$PROJECT_DIR$/health01_consumer/src/main/webapp/index.jsp" value="file://$PROJECT_DIR$/health01_consumer/src/main/webapp" />
+        <entry key="file://$PROJECT_DIR$/health01_consumer/src/main/webapp/pages/backorder.html" value="file://$PROJECT_DIR$/health01_consumer/src/main/webapp/pages" />
+        <entry key="file://$PROJECT_DIR$/health01_consumer/src/main/webapp/pages/checkgroup.html" value="file://$PROJECT_DIR$/health01_consumer/src/main/webapp/pages" />
+        <entry key="file://$PROJECT_DIR$/health01_consumer/src/main/webapp/pages/checkitem.html" value="file://$PROJECT_DIR$/health01_consumer/src/main/webapp/pages" />
+        <entry key="file://$PROJECT_DIR$/health01_consumer/src/main/webapp/pages/main2222222.html" value="file://$PROJECT_DIR$/health01_consumer/src/main/webapp/pages" />
+        <entry key="file://$PROJECT_DIR$/health01_consumer/src/main/webapp/pages/roles.html" value="file://$PROJECT_DIR$/health01_consumer/src/main/webapp/pages" />
+        <entry key="file://$PROJECT_DIR$/health01_mobile/src/main/webapp/pages/index.html" value="file://$PROJECT_DIR$/health01_mobile/src/main/webapp/pages" />
+        <entry key="file://$PROJECT_DIR$/health01_mobile/src/main/webapp/pages/setmeal.html" value="file://$PROJECT_DIR$/health01_mobile/src/main/webapp/pages" />
+      </map>
+    </option>
+  </component>
+</project>

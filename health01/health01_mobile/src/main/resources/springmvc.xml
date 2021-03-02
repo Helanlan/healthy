@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+ <mvc:annotation-driven>
+  <mvc:message-converters register-defaults="true"><!--转换器-->
+   <!--FastJsonHttpMessageConverter不配置会使用默认的json，功能差不多-->
+   <!--往回写json数据的时候用转换器将java对象转换成json-->
+   <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+    <property name="supportedMediaTypes" value="application/json;charset=UTF-8"/>
+    <property name="features">
+     <list>
+      <value>WriteMapNullValue</value>
+      <value>WriteDateUseDateFormat</value>
+     </list>
+    </property>
+   </bean>
+  </mvc:message-converters>
+ </mvc:annotation-driven>
+    <!--发布服务相关的-->
+    <dubbo:application name="health01_mobile"/><!--指定应用名称-->
+    <dubbo:registry address="zookeeper://127.0.0.1:2181"/><!--指定服务注册中心地址-->
+    <dubbo:annotation package="com.health.controller"/><!--批量扫描，发布服务-->
+    <dubbo:consumer timeout="600000" check="false"/>
+    <dubbo:reference interface="com.health.service.SetMealService" id="setMealService"/>
+    <dubbo:reference interface="com.health.service.OrderService" id="orderService"/>
+    <dubbo:reference interface="com.health.service.MemberService" id="memberService"/>
+
+    <bean class="com.health.controller.SetMealController" id="setMealController"/>
+    <bean class="com.health.controller.ValidateCodeController" id="validateCodeController"/>
+    <bean class="com.health.controller.OrderController" id="orderController"/>
+    <bean class="com.health.controller.MemberController" id="memberController"/>
+    <import resource="spring-redis.xml"></import>
+</beans>

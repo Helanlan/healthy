@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.health.mapper.PermissionMapper">
+    <!--<resultMap id="map" type="com.health.pojo.Permission">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="keyWord" column="keyWord"/>
+        <result property="description" column="description"/>
+        <collection property="roles"
+                    ofType="com.health.pojo.Role"
+                    column="id"
+                    javaType="Map"
+                    select="com.health.mapper.RoleMapper.findByRoleId">
+
+        </collection>
+    </resultMap>
+   <select id="findByRoleId" resultMap="map">
+       select * from t_permission where id=#{id};
+   </select>-->
+    <select id="findByRoleId" parameterType="int" resultType="com.health.pojo.Permission">
+        select * from t_permission where id in(select permission_id from t_role_permission where role_id=#{id});
+    </select>
+
+
+    <select id="showAll" resultType="com.health.pojo.Permission" parameterType="string">
+        select * from t_permission
+        <if test="value!=null and value.length>0">
+            where name like CONCAT('%',#{value},'%') or keyWord like CONCAT('%',#{value},'%')
+        </if>
+    </select>
+
+    <insert id="add" parameterType="com.health.pojo.Permission">
+        insert into t_permission (name,keyWord,description,isEnable)
+        values (#{name},#{keyWord},#{description},#{isEnable});
+    </insert>
+
+
+    <!--修改-->
+    <select id="findPermissionById" parameterType="int" resultType="com.health.pojo.Permission">
+        select * from t_permission where id=#{id};
+    </select>
+    <update id="edit" parameterType="com.health.pojo.Permission">
+        update t_permission set name=#{name},keyWord=#{keyWord},description=#{description},isEnable=#{isEnable} where id=#{id}
+    </update>
+
+    <!--删除-->
+    <select id="selCountRolePermissionByPermissionId" resultType="long" parameterType="int">
+        select count(*) from t_role_permission where permission_id=#{id};
+    </select>
+    <delete id="deletePermission" parameterType="int">
+        delete from t_permission where id=#{id};
+    </delete>
+
+    <!--角色中显示权限列表时使用-->
+    <select id="findAllList" resultType="com.health.pojo.Permission">
+        select * from t_permission where isEnable=1;
+    </select>
+</mapper>

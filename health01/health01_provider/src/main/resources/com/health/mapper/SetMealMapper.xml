@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.health.mapper.SetMealMapper">
+
+    <insert id="add" parameterType="com.health.pojo.SetMeal">
+        insert into t_setmeal (name,code,helpCode,sex,age,price,remark,attention,img)
+        values (#{name},#{code},#{helpCode},#{sex},#{age},#{price},#{remark},#{attention},#{img});
+        <selectKey resultType="int" order="AFTER" keyProperty="id">/*获得刚刚插入的数据的id，mybatis提供*/
+            select last_insert_id();
+        </selectKey>
+    </insert>
+    <!--添加关系表-->
+    <insert id="setSetMealAndCheckGroup" parameterType="map">
+        insert into t_setmeal_checkgroup (setmeal_id,checkgroup_id) values (#{setmealId},#{checkgroupId});
+    </insert>
+
+    <!--分页查询-->
+    <select id="findByPage" parameterType="String" resultType="com.health.pojo.SetMeal">
+        select * from t_setmeal
+        <if test="value!=null and value.length>0">
+            where code like concat('%',#{value},'%') or name like concat('%',#{value},'%') or helpCode like concat('%',#{value},'%')
+        </if>
+    </select>
+
+
+    <!--修改套餐项信息-->
+    <!--1、套餐基本数据回显-->
+    <select id="findById" parameterType="int" resultType="com.health.pojo.SetMeal">
+        select * from t_setmeal where id=#{id};
+    </select>
+    <!--3、套餐中检查组列表回显已勾选的-->
+    <select id="findCheckGroupById" parameterType="int" resultType="int">
+        select checkgroup_id from t_setmeal_checkgroup where setmeal_id=#{setmealId};
+    </select>
+    <delete id="deleteSetMealCheckGroupBySetmealId" parameterType="int">
+        delete from t_setmeal_checkgroup where setmeal_id=#{setmealId};
+    </delete>
+    <update id="update" parameterType="com.health.pojo.SetMeal">
+        update t_setmeal
+        set name =#{name},code=#{code},helpCode=#{helpCode},sex=#{sex},age=#{age},price=#{price},remark=#{remark},attention=#{attention},img=#{img}
+        where id=#{id};
+    </update>
+
+    <!--删除-->
+    <delete id="deleteToSetmealCheckgroupById" parameterType="int">
+        delete from t_setmeal_checkgroup where setmeal_id=#{setmealId};
+    </delete>
+    <delete id="delete" parameterType="int">
+        delete from t_setmeal where id=#{id};
+    </delete>
+ <!--后台用，统计每个套餐预约占比  select count(id) from t_order where setmeal_id=#{setmeal_id};-->
+    <select id="countOrderBySetmealId" resultType="map">
+        select count(orders.id)value ,setmeals.name from t_order orders,t_setmeal setmeals where orders.setmealId=setmeals.id group by setmeals.name;
+    </select>
+    <!--后台端使用 orderMapper.xml中resultMap使用-->
+
+
+
+    <!--移动端的-->
+    <select id="findAll" resultType="com.health.pojo.SetMeal">
+        select * from t_setmeal;
+    </select>
+    <!--需要显示检查组、检查项和套餐本身的详情-->
+    <resultMap id="setmealmap" type="com.health.pojo.SetMeal">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="code" column="code"/>
+        <result property="helpCode" column="helpCode"/>
+        <result property="sex" column="sex"/>
+        <result property="age" column="age"/>
+        <result property="price" column="price"/>
+        <result property="remark" column="remark"/>
+        <result property="attention" column="attention"/>
+        <result property="img" column="img"/>
+            <collection property="checkGroups" ofType="com.health.pojo.CheckGroup"
+                    javaType="ArrayList" column="id"
+                    select="com.health.mapper.CheckGroupMapper.findCheckGroupBySetmealId">
+        </collection>
+    </resultMap>
+    <select id="detailFindById" resultMap="setmealmap">
+        select * from t_setmeal where id=#{id};
+    </select>
+</mapper>

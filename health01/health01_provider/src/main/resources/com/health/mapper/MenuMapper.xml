@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.health.mapper.MenuMapper">
+    <!--分页显示，按条件查询-->
+   <select id="findMenu" resultType="com.health.pojo.Menu" parameterType="string">
+       select * from t_menu
+       <if test="value!=null and value.length>0">
+           where name like CONCAT('%',#{value},'%')
+       </if>
+   </select>
+
+    <insert id="add" parameterType="com.health.pojo.Menu">
+        insert into t_menu (name,linkUrl,path,priority,parentMenuId,description,icon,level )
+        values (#{name},#{linkUrl},#{path},#{priority},#{parentMenuId},#{description},#{icon},#{level});
+    </insert>
+
+    <!--所有一级菜单-->
+    <select id="showParentMenu" resultType="com.health.pojo.Menu">
+        select * from t_menu where parentMenuId=0;
+    </select>
+    <select id="showMenuByName" resultType="com.health.pojo.Menu">
+        select t3.id,t3.name,t3.parentMenuId,t3.ischild from (
+              select t1.id,t1.name,t1.parentMenuId,
+              if(find_in_set(parentMenuId, @pids) > 0, @pids := concat(@pids, ',', id), 0) as ischild
+              from t_menu t1, (select @pids :=#{id})t2
+        ) t3 where ischild != 0 or t3.id=#{id} order by t3.parentMenuId
+    </select>
+    <!--
+    if（express1,express2,express3）条件语句，if语句类似三目运算符，当express1成立时，执行express2,否则执行express3;
+    FIND_IN_SET:
+    select FIND_IN_SET('1', '1'); 返回 就是1 这时候的strlist集合有点特殊 只有一个字符串 其实就是要求前一个字符串 一定要在后一个字符串集合中才返回大于0的数
+    select FIND_IN_SET('2', '1，2'); 返回2
+    select FIND_IN_SET('6', '1'); 返回0 strlist中不存在str，所以返回0。
+
+    CONCAT:
+    mysql CONCAT(str1,str2,…)
+    返回结果为连接参数产生的字符串。如有任何一个参数为NULL ，则返回值为 NULL。或许有一个或多个参数。 如果所有参数均为非二进制字符串，则结果为非二进制字符串。 如果自变量中含有任一二进制字符串，则结果为一个二进制字符串。一个数字参数被转化为与之相等的二进制字符串格式；若要避免这种情况，可使用显式类型 cast, 例如： SELECT CONCAT(CAST(int_col AS CHAR), char_col)
+    mysql> SELECT CONCAT(’My’, ‘S’, ‘QL’); -> ‘MySQL’
+    mysql> SELECT CONCAT(’My’, NULL, ‘QL’); -> NULL
+    mysql> SELECT CONCAT(14.3); -> ‘14.3′
+    -->
+
+    <select id="findById" parameterType="Integer" resultType="com.health.pojo.Menu">
+        select * from t_menu where id=#{id};
+    </select>
+    <update id="editMenu" parameterType="com.health.pojo.Menu">
+        update t_menu set name=#{name},linkUrl=#{linkUrl},path=#{path},priority=#{priority},
+        description=#{description},
+        parentMenuId=#{parentMenuId},
+        icon=#{icon},
+        level=#{level} where id =#{id}
+    </update>
+    <select id="findChildsById" parameterType="int" resultType="com.health.pojo.Menu">
+        select * from t_menu where parentMenuId=#{id};
+    </select>
+    <delete id="deleteMenu" parameterType="int">
+        delete from t_menu where id=#{id}
+    </delete>
+
+
+    <!--角色中显示菜单列表时使用-->
+    <select id="findAllList" resultType="com.health.pojo.Menu">
+        select * from t_menu;
+    </select>
+</mapper>

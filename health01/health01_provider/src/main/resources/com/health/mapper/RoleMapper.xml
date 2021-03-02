@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.health.mapper.RoleMapper">
+    <insert id="add" parameterType="com.health.pojo.Role">
+        insert into t_role(name,keyWord,description,isEnable) values (#{name},#{keyWord},#{description},#{isEnable})
+        <selectKey resultType="int" order="AFTER" keyProperty="id">
+            select last_insert_id();
+        </selectKey>
+    </insert>
+    <!--添加角色关系表-->
+    <insert id="setRoleMenu" parameterType="map">
+    insert into t_role_menu (role_id,menu_id) values (#{roleId},#{menuId});
+    </insert>
+    <insert id="setRolePermission" parameterType="map">
+    insert into t_role_permission (role_id,permission_id) values (#{roleId},#{permissionId});
+    </insert>
+
+    <!--分页展示-->
+    <select id="findPage" parameterType="string" resultType="com.health.pojo.Role">
+        select * from t_role
+        <if test="value!=null and value.length>0">
+            where keyWord like CONCAT('%',#{value},'%') or name like CONCAT('%',#{value},'%')
+        </if>
+    </select>
+
+
+    <!--修改角色信息-->
+    <!--数据回显-->
+    <select id="findRoleById" resultType="com.health.pojo.Role" parameterType="int">
+        select * from t_role where id=#{id};
+    </select>
+    <!--这个角色下已添加的权限，用于复选框回显-->
+    <select id="findPermissionCheckedList" parameterType="int" resultType="int">
+        select permission_id from t_role_permission where role_id=#{id};
+    </select>
+    <!--这个角色下已添加的菜单，用于复选框回显-->
+    <select id="findMenuCheckedList" parameterType="int" resultType="int">
+        select menu_id from t_role_menu where role_id=#{id};
+    </select>
+    <!--重新添加此角色中权限的id-->
+    <insert id="editRolePermissionByRoleId" parameterType="map">
+        insert into t_role_permission (role_id,permission_id) values (#{roleId},#{permissionId});
+    </insert>
+    <!--重新添加此角色中菜单的id-->
+    <insert id="editRoleMenuByRoleId" parameterType="map">
+        insert into t_role_menu (role_id,menu_id) values (#{roleId},#{menuId});
+    </insert>
+    <!--删除此角色下原来的所有权限的id，删除后全部重新添加-->
+    <delete id="delRolePermissionByRoleId" parameterType="int">
+        delete from t_role_permission where role_id=#{roleId}
+    </delete>
+    <!--删除此角色下原来的所有菜单的id，删除后全部重新添加-->
+    <delete id="delRoleMenuByRoleId" parameterType="int">
+        delete from t_role_menu where role_id=#{roleId}
+    </delete>
+    <update id="edit" parameterType="com.health.pojo.Role">
+        update t_role set name=#{name},keyWord=#{keyWord},description=#{description},isEnable=#{isEnable} where id=#{id}
+    </update>
+
+
+
+    <!--删除角色-->
+    <delete id="deleteUserRoleByRoleId" parameterType="int">
+        delete from t_user_role where role_id=#{roleId}
+    </delete>
+    <delete id="deleteRole" parameterType="int">
+        delete from t_role where id=#{roleId}
+    </delete>
+
+
+
+
+    <!--用户添加/编辑页面要显示的角色信息-->
+    <select id="findAll" resultType="com.health.pojo.Role">
+        select * from t_role where isEnable=1;
+    </select>
+
+
+
+    <resultMap id="map1" type="com.health.pojo.Role">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="keyWord" column="keyWord"/>
+        <result property="description" column="description"/>
+        <collection property="permissions"
+                    ofType="com.health.pojo.Permission"
+                    column="id"
+                    select="com.health.mapper.PermissionMapper.findByRoleId">
+        </collection>
+    </resultMap>
+    <select id="findByUserId" resultMap="map1" parameterType="int">
+       select * from t_role where id in(select role_id from t_user_role where user_id=#{id});
+   </select>
+    <!--<select id="findByUserId" parameterType="int" resultType="com.health.pojo.Role">
+       select * from t_role where id in(select role_id from t_user_role where user_id=#{id});
+   </select>-->
+</mapper>
